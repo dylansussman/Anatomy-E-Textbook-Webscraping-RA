@@ -1,5 +1,4 @@
 import re
-import openpyxl
 from openpyxl.workbook.workbook import Workbook
 from openpyxl.worksheet.worksheet import Worksheet
 from openpyxl.workbook.child import INVALID_TITLE_REGEX
