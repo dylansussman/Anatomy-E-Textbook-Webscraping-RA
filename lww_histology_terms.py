@@ -9,10 +9,6 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from striprtf.striprtf import rtf_to_text
 
-# TODO Now that I have one chapter working, work to create reusable functions that can 
-# be used by the rest of the chapters in this book and then for all the textbooks
-# Modularize this in some way so that it can be reused for all chapters in all the texbooks
-
 DRIVER_PATH = '/usr/local/bin/chromedriver'
 driver = webdriver.Chrome(executable_path=DRIVER_PATH)
 # Link to go to first texbook to scrape: Atlas of Histology with Functional Correlations, 13e
@@ -87,6 +83,7 @@ for keyword_list in keywords:
     col += 1
 
 wb.save('../OneDrive - The Ohio State University/Survey Development - Dylan/Atlas of Histology with Functional Correlations, 13e.xlsx')
+wb.close()
 
 
 
