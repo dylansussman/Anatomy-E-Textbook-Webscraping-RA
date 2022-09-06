@@ -2,7 +2,7 @@ from selenium.webdriver.remote.webelement import WebElement
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from openpyxl.worksheet.worksheet import Worksheet
-from openpyxl.styles import Font
+from openpyxl.styles import Font, Alignment, PatternFill
 from openpyxl.utils import get_column_letter
 
 # Object to represent a chapter of a textbook
@@ -36,14 +36,18 @@ class chapterScraper:
         return bold_words
 
 
-    # TODO Formatting sheet: Additional formatting if needed, i.e., center headers
-    # TODO Add chapter name to each sheet
     def create_worksheet(self, ws: Worksheet, data: dict[str, list[str]]) -> None:
-        row: int = 1
+        # Add chapter name to first row of sheet and merge cells
+        ws.merge_cells(start_row=1, end_row=1, start_column=1, end_column=len(data))
+        ws.cell(row=1, column=1, value=self.chapter_title).font = Font(bold=True, size=14)
+        ws.cell(row=1, column=1).alignment = Alignment(horizontal='center')
+        ws.cell(row=1, column=1).fill = PatternFill('solid', fgColor='BFBFBF')
+        row: int = 2
         col: int = 1
         max_width: int = 0
         for header, terms in data.items():
             ws.cell(row=row, column=col, value=header).font = Font(bold=True)
+            ws.cell(row=row, column=col).alignment = Alignment(horizontal='center')
             max_width = len(header)
             for term in terms:
                 row += 1
@@ -51,7 +55,7 @@ class chapterScraper:
                 if len(term) > max_width:
                     max_width = len(term)
             ws.column_dimensions[get_column_letter(col)].width = max_width
-            row = 1
+            row = 2
             col += 1
 
     def is_roman_numeral(self, word: str) -> bool:
