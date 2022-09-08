@@ -1,4 +1,3 @@
-import re
 from selenium import webdriver
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.common.by import By
@@ -8,14 +7,15 @@ from striprtf.striprtf import rtf_to_text
 from chapter_scraper import chapterScraper
 from openpyxl.workbook.workbook import Workbook
 from openpyxl.worksheet.worksheet import Worksheet
-from openpyxl.workbook.child import INVALID_TITLE_REGEX
 from selenium.common.exceptions import NoSuchElementException
+from webdriver_manager.chrome import ChromeDriverManager
 
 class bookScraper:
-    DRIVER_PATH: str = '/usr/local/bin/chromedriver'
+    # DRIVER_PATH: str = '/usr/local/bin/chromedriver'
 
     def __init__(self, book_url: str) -> None:
-        self.driver = webdriver.Chrome(executable_path=self.DRIVER_PATH)
+        # self.driver = webdriver.Chrome(executable_path=self.DRIVER_PATH)
+        self.driver = webdriver.Chrome(ChromeDriverManager().install())
         self.driver.get(book_url)
 
     # Get thru the login page to get to the specified textbook
@@ -37,11 +37,12 @@ class bookScraper:
 
     # Could return dictionary with key as chapter title and values as another dictionary of
     # Each header as a key with the bold list from that subsection as the value 
-    def get_book_data(self) -> dict[str, dict[str, list[str]]]:
-        chapter_1: WebElement = WebDriverWait(self.driver, 30).until(EC.presence_of_element_located((By.LINK_TEXT, 'Chapter 1: Histologic Methods')))
+    def get_book_data(self, first_chapter: str, ) -> dict[str, dict[str, list[str]]]:
+        chapter_1: WebElement = WebDriverWait(self.driver, 30).until(EC.presence_of_element_located((By.LINK_TEXT, first_chapter)))
         chapter_list: list[str] = []
         for element in self.driver.find_elements(By.CLASS_NAME, 'tocLink_wrap'):
-            chapter_list.append(element.text)
+            if not 'Appendix' in element.text:
+                chapter_list.append(element.text)
         chapter_1.click()
         chapter_dict: dict[str, dict[str, list[str]]] = {}
         for chapter_title in chapter_list:
@@ -50,7 +51,8 @@ class bookScraper:
             header_term_dict: dict[str, list[str]] = {}
             path: str = ''
             for section_id in headers.keys():
-                path = f"//div[@id='{section_id}']/descendant::div[not(@class='boxed-content')]/div[@class='para']/strong"
+                # TODO Edit XPath to include bold terms in lists
+                path = f"//div[@id='{section_id}']/descendant::div[not(@class='caption-legend' or @class='boxed-content')]/div[@class='para']/strong"
                 bold_terms: list[str] = chapter.get_section_bold_terms(path)
                 header_term_dict.update({headers.get(section_id).text:bold_terms})
             chapter_dict.update({chapter_title:header_term_dict})
@@ -63,7 +65,7 @@ class bookScraper:
                 next_chapter.click()
         return chapter_dict
 
-    def create_workbook(self, data: dict[str, dict[str, list[str]]]) -> None:
+    def create_workbook(self, data: dict[str, dict[str, list[str]]], workbook_name: str) -> None:
         wb: Workbook = Workbook()
         wb.remove(wb.active)
         for chapter_title, chapter_data in data.items():
@@ -71,7 +73,7 @@ class bookScraper:
             ws: Worksheet = wb.create_sheet(title)
             chapter: chapterScraper = chapterScraper(chapter_title, self.driver)
             chapter.create_worksheet(ws, chapter_data)
-        wb.save('../OneDrive - The Ohio State University/Survey Development - Dylan/Atlas of Histology with Functional Correlations, 13e.xlsx')
+        wb.save(workbook_name)
         wb.close()
 
 

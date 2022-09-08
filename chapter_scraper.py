@@ -7,7 +7,6 @@ from openpyxl.utils import get_column_letter
 
 # Object to represent a chapter of a textbook
 # Big picture: chapter_scraper is within book_scraper
-
 class chapterScraper:
     BAD_HEADERS: list[str] = ['Summary', 'Review Questions', 'Additional Histologic Images']
     ROMAN_NUMERALS: list[str] = ['I', 'V', 'X', 'L', 'C', 'D']
@@ -31,7 +30,7 @@ class chapterScraper:
         bold_web_elements: list[WebElement] = self.driver.find_elements(By.XPATH, path)
         bold_words: list[str] = []
         for element in bold_web_elements:
-            if len(element.text) > 1 and not any(char.isnumeric() for char in element.text) and not '.' in element.text and not self.is_roman_numeral(element.text):
+            if len(element.text) > 1 and self.add_with_number(element.text) and not '.' in element.text and not self.is_roman_numeral(element.text):
                     bold_words.append(element.text)
         return bold_words
 
@@ -63,3 +62,23 @@ class chapterScraper:
         for char in word:
             word_chars_bool.append(char in self.ROMAN_NUMERALS)
         return all(word_chars_bool)
+
+    def add_with_number(self, word: str) -> bool:
+        words_chars_bool: list[bool] = []
+        for char in word:
+            words_chars_bool.append(char.isnumeric())
+        if any(words_chars_bool):
+            if len(words_chars_bool) < 3:
+                return False
+            else:
+                return True
+        return True
+
+    # TODO Edit function to make sure things such as (n), (d), (2n), (2d), etc. (Chapter 3, Nuclear Components) are not included
+    def add_with_parentheses(self, word: str) -> bool:
+        if word.startswith('(') and word.endswith(')'):
+            word_wo_paren: str = word[1:len(word) - 1]
+            return self.add_with_number(word_wo_paren)
+        return True
+            
+
