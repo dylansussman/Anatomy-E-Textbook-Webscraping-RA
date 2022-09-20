@@ -74,11 +74,11 @@ class chapterScraper:
                 return True
         return True
 
-    # TODO Edit function to make sure things such as (n), (d), (2n), (2d), etc. (Chapter 3, Nuclear Components) are not included
-    def add_with_parentheses(self, word: str) -> bool:
-        if word.startswith('(') and word.endswith(')'):
-            word_wo_paren: str = word[1:len(word) - 1]
-            return self.add_with_number(word_wo_paren)
-        return True
+    # NOTE Not using this function, but could need later
+    # def add_with_parentheses(self, word: str) -> bool:
+    #     if word.startswith('(') and word.endswith(')'):
+    #         word_wo_paren: str = word[1:len(word) - 1]
+    #         return self.add_with_number(word_wo_paren)
+    #     return True
             
 

@@ -51,8 +51,7 @@ class bookScraper:
             header_term_dict: dict[str, list[str]] = {}
             path: str = ''
             for section_id in headers.keys():
-                # TODO Edit XPath to include bold terms in lists
-                path = f"//div[@id='{section_id}']/descendant::div[not(@class='caption-legend' or @class='boxed-content')]/div[@class='para']/strong"
+                path = f"//div[@id='{section_id}']/descendant::div[not(@class='caption-legend' or @class='boxed-content')]/div[@class='para']/strong | //div[@id='{section_id}']/descendant::div[not(@class='caption-legend' or @class='boxed-content')]/ul[@class='bullet']/li/div[@class='para']/strong"
                 bold_terms: list[str] = chapter.get_section_bold_terms(path)
                 header_term_dict.update({headers.get(section_id).text:bold_terms})
             chapter_dict.update({chapter_title:header_term_dict})
