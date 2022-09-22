@@ -51,9 +51,17 @@ class bookScraper:
             header_term_dict: dict[str, list[str]] = {}
             path: str = ''
             for section_id in headers.keys():
-                path = f"//div[@id='{section_id}']/descendant::div[not(@class='caption-legend' or @class='boxed-content')]/div[@class='para']/strong | //div[@id='{section_id}']/descendant::div[not(@class='caption-legend' or @class='boxed-content')]/ul[@class='bullet']/li/div[@class='para']/strong"
+                path1 = f"//div[@id='{section_id}']/descendant::div[not(@class='caption-legend' or @class='boxed-content')]/div[@class='para']/strong"
+                path2 = f"//div[@id='{section_id}']/descendant::div[not(@class='caption-legend' or @class='boxed-content')]/ul[@class='bullet']/li/div[@class='para']/strong"
+                # path3 = f"//div[@id='{section_id}']/descendant::div[not(@class='caption-legend' or @class='boxed-content')]/descendant::ul[@class='bullet']/li/div[@class='para']/strong"
+                # path4 = f"//div[@id='{section_id}']/descendant::div[not(@class='caption-legend' or @class='boxed-content')]/descendant::ul[@class='bullet']/li/strong"
+                # path5 = f"//div[@id='{section_id}']/descendant::div[not(@class='caption-legend' or @class='boxed-content')]/descendant::ol[@class='roman-upper' or @class='alpha-upper' or @class='number']/li/div[@class='para']/strong"
+                # path6 = f"//div[@id='{section_id}']/descendant::div[not(@class='caption-legend' or @class='boxed-content')]/ul[@class='bullet']/li/strong"
+                # path7 = f"//div[@id='{section_id}']/descendant::div[not(@class='caption-legend' or @class='boxed-content')]/ul[@class='bullet']/li/ul[@class='bullet']/li/div[@class='para']/strong"
+                path = f"{path1} | {path2}"
                 bold_terms: list[str] = chapter.get_section_bold_terms(path)
-                header_term_dict.update({headers.get(section_id).text:bold_terms})
+                if header_term_dict.get(headers.get(section_id).text) == None or len(bold_terms) > 0:
+                    header_term_dict.update({headers.get(section_id).text:bold_terms})
             chapter_dict.update({chapter_title:header_term_dict})
             # Last chapter doesn't have a next chapter button
             try:

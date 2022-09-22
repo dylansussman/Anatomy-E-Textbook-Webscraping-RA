@@ -8,7 +8,7 @@ from openpyxl.utils import get_column_letter
 # Object to represent a chapter of a textbook
 # Big picture: chapter_scraper is within book_scraper
 class chapterScraper:
-    BAD_HEADERS: list[str] = ['Summary', 'Review Questions', 'Additional Histologic Images']
+    BAD_HEADERS: list[str] = ['Summary', 'Review Questions', 'Additional Histologic Images', 'Outline']
     ROMAN_NUMERALS: list[str] = ['I', 'V', 'X', 'L', 'C', 'D']
     
     def __init__(self, title: str, web_driver: webdriver.Chrome ) -> None:
@@ -30,8 +30,12 @@ class chapterScraper:
         bold_web_elements: list[WebElement] = self.driver.find_elements(By.XPATH, path)
         bold_words: list[str] = []
         for element in bold_web_elements:
-            if len(element.text) > 1 and self.add_with_number(element.text) and not '.' in element.text and not self.is_roman_numeral(element.text):
-                    bold_words.append(element.text)
+            word = element.text
+            if ':' in word:
+                word = word[:word.find(':')]
+            if len(word) > 1 and self.add_with_number(word) and not '.' in word and not self.is_roman_numeral(word) and word != "Image:":
+                if not word.lower() in bold_words:
+                    bold_words.append(word.lower())
         return bold_words
 
 
