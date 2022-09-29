@@ -2,6 +2,8 @@ from book_scraper import bookScraper
 import json
 
 # TODO Pass paths into get_book_data and bring all pathes out of book_scraper and into the main file
+    # In order to do this will have to pass in array of path of part after section_id; will have to add
+    # that in inside the book scraper
 # TODO Then, continue on to next series of textbooks
 
 '''NOTE LWW Textbooks'''
@@ -57,4 +59,13 @@ import json
 '''NOTE Elsevier Textbooks'''
 
 '''Scraping & Writing Data for Wheater's Functional Histology, Sixth Edition'''
-
+scraper5: bookScraper = bookScraper("https://www-clinicalkey-com.proxy.lib.ohio-state.edu/#!/browse/book/3-s2.0-C20090600258")
+scraper5.login()
+scraper5.get_to_elsevier_book("Wheater's Functional Histology")
+data5 = scraper5.get_book_data("Cell structure and function")
+with open("Textbook_Data/wheater's_functional_histology_sixth_edition.txt", 'w') as file5:
+    file5.write(json.dumps(data5))
+# with open("Textbook_Data/wheater's_functional_histology_sixth_edition.txt", 'r') as file5:
+#     data5 = file5.read()
+# data5 = json.loads(data5)
+scraper5.create_workbook(data5, "../OneDrive - The Ohio State University/Survey Development - Dylan/Textbooks Data/Wheater's Functional Histology, Sixth Edition.xlsx")

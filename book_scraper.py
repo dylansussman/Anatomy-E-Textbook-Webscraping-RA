@@ -35,18 +35,39 @@ class bookScraper:
         password_element.send_keys(password)
         self.driver.find_element(By.ID, 'submit').click()
 
+    # NOTE Only needed for Elsevier textbooks
+    # Gets from main webpage to page for specified book
+    def get_to_elsevier_book(self, book_title: str):
+        search_bar: WebElement = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.ID, 'search-bar')))
+        search_bar.send_keys(book_title)
+        search_bar.click()
+        clickable_book: WebElement = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, 'span.suggestion__search-term')))
+        while clickable_book.text != book_title:
+            clickable_book = self.driver.find_element(By.CSS_SELECTOR, 'span.suggestion__search-term')
+        clickable_book.click()
+        # self.driver.find_element(By.CSS_SELECTOR, 'span.suggestion__search-term').click()
+
     # Could return dictionary with key as chapter title and values as another dictionary of
     # Each header as a key with the bold list from that subsection as the value 
     def get_book_data(self, first_chapter: str, ) -> dict[str, dict[str, list[str]]]:
-        chapter_1: WebElement = WebDriverWait(self.driver, 30).until(EC.presence_of_element_located((By.LINK_TEXT, first_chapter)))
+        # NOTE For scraping LWW Textbooks
+        # chapter_1: WebElement = WebDriverWait(self.driver, 30).until(EC.presence_of_element_located((By.LINK_TEXT, first_chapter)))
+        chapter_1: WebElement = WebDriverWait(self.driver, 30).until(EC.presence_of_element_located((By.XPATH, f"//span[text()='{first_chapter}']")))
         chapter_list: list[str] = []
-        for element in self.driver.find_elements(By.CLASS_NAME, 'tocLink_wrap'):
-            if not 'Appendix' in element.text:
-                chapter_list.append(element.text)
+        # NOTE For scraping LWW Textbooks
+        # for element in self.driver.find_elements(By.CLASS_NAME, 'tocLink_wrap'):
+        #     if not 'Appendix' in element.text:
+        #         chapter_list.append(element.text)
+        # NOTE For scraping Elsevier Textbooks
+        for element in self.driver.find_elements(By.CLASS_NAME, 'has-chapter'):
+            if not "Glossary" in element.accessible_name:
+                chapter_list.append(element.accessible_name)
         chapter_1.click()
         chapter_dict: dict[str, dict[str, list[str]]] = {}
         for chapter_title in chapter_list:
             chapter: chapterScraper = chapterScraper(chapter_title, self.driver)
+            
+            # TODO make sure get_headers will work for Elsevier, otherwise edit it to make sure it does
             headers: dict[str, WebElement] = chapter.get_headers()
             header_term_dict: dict[str, list[str]] = {}
             path: str = ''
