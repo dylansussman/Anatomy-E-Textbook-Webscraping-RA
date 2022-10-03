@@ -52,25 +52,30 @@ class bookScraper:
     def get_book_data(self, first_chapter: str, ) -> dict[str, dict[str, list[str]]]:
         # NOTE For scraping LWW Textbooks
         # chapter_1: WebElement = WebDriverWait(self.driver, 30).until(EC.presence_of_element_located((By.LINK_TEXT, first_chapter)))
-        chapter_1: WebElement = WebDriverWait(self.driver, 30).until(EC.presence_of_element_located((By.XPATH, f"//span[text()='{first_chapter}']")))
+        # NOTE For scraping Elsevier Textbooks
+        elements: list[WebElement] = WebDriverWait(self.driver, 30).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'a.has-chapter')))
         chapter_list: list[str] = []
         # NOTE For scraping LWW Textbooks
         # for element in self.driver.find_elements(By.CLASS_NAME, 'tocLink_wrap'):
         #     if not 'Appendix' in element.text:
         #         chapter_list.append(element.text)
         # NOTE For scraping Elsevier Textbooks
-        for element in self.driver.find_elements(By.CLASS_NAME, 'has-chapter'):
+        # elements = self.driver.find_elements(By.CSS_SELECTOR, 'a.has-chapter')
+        chapter_1: WebElement
+        for element in elements:
             if not "Glossary" in element.accessible_name:
                 chapter_list.append(element.accessible_name)
+                # NOTE For scraping Elsevier Textbooks
+                if first_chapter in element.accessible_name:
+                    chapter_1 = element
         chapter_1.click()
         chapter_dict: dict[str, dict[str, list[str]]] = {}
         for chapter_title in chapter_list:
-            chapter: chapterScraper = chapterScraper(chapter_title, self.driver)
-            
-            # TODO make sure get_headers will work for Elsevier, otherwise edit it to make sure it does
+            chapter: chapterScraper = chapterScraper(chapter_title, self.driver)            
             headers: dict[str, WebElement] = chapter.get_headers()
             header_term_dict: dict[str, list[str]] = {}
             path: str = ''
+            # TODO Headers are good; work to create correct xpaths for the chapter (html element is a section not a div)
             for section_id in headers.keys():
                 path1 = f"//div[@id='{section_id}']/descendant::div[not(@class='caption-legend' or @class='boxed-content')]/div[@class='para']/strong"
                 path2 = f"//div[@id='{section_id}']/descendant::div[not(@class='caption-legend' or @class='boxed-content')]/ul[@class='bullet']/li/div[@class='para']/strong"

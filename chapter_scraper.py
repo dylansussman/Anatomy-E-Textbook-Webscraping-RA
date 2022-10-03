@@ -1,6 +1,8 @@
 from selenium.webdriver.remote.webelement import WebElement
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from openpyxl.worksheet.worksheet import Worksheet
 from openpyxl.styles import Font, Alignment, PatternFill
 from openpyxl.utils import get_column_letter
@@ -8,7 +10,7 @@ from openpyxl.utils import get_column_letter
 # Object to represent a chapter of a textbook
 # Big picture: chapter_scraper is within book_scraper
 class chapterScraper:
-    BAD_HEADERS: list[str] = ['Summary', 'Review Questions', 'Additional Histologic Images', 'Outline']
+    BAD_HEADERS: list[str] = ['Summary', 'Review', 'Additional Histologic Images', 'Outline']
     ROMAN_NUMERALS: list[str] = ['I', 'V', 'X', 'L', 'C', 'D']
     
     def __init__(self, title: str, web_driver: webdriver.Chrome ) -> None:
@@ -17,13 +19,21 @@ class chapterScraper:
 
     def get_headers(self) -> dict[str, WebElement]:
         headers: dict[str, WebElement] = {}
-        sections: list[WebElement] = self.driver.find_elements(By.CLASS_NAME, 'scrollTo')
+        # NOTE For scraping LWW Textbooks
+        # sections: list[WebElement] = self.driver.find_elements(By.CLASS_NAME, 'scrollTo')
+        # NOTE For scraping Elsevier Textbooks
+        WebDriverWait(self.driver, 10).until(EC.visibility_of_any_elements_located((By.CSS_SELECTOR, 'a.c-link--nav')))
+        sections: list[WebElement] = self.driver.find_elements(By.CSS_SELECTOR, 'a.c-link--nav')
         for section in sections:
             if not any(map(lambda header: header in section.text, self.BAD_HEADERS)):
-                href: str = section.get_attribute('href')
-                pound_index: int = href.find('#')
-                id: str = f'section_{href[pound_index + 1:]}'
-                headers.update({id:section})
+                # NOTE For scraping LWW Textbooks
+                # href: str = section.get_attribute('href')
+                # pound_index: int = href.find('#')
+                # id: str = f'section_{href[pound_index + 1:]}'
+                # NOTE For scraping Elsevier Textbooks
+                id: str = section.get_attribute('scroll-to-id')
+                if id != None:
+                    headers.update({id:section})
         return headers
 
     def get_section_bold_terms(self, path: str) -> list[str]:
