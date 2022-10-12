@@ -49,7 +49,7 @@ class bookScraper:
 
     # Could return dictionary with key as chapter title and values as another dictionary of
     # Each header as a key with the bold list from that subsection as the value 
-    def get_book_data(self, first_chapter: str, ) -> dict[str, dict[str, list[str]]]:
+    def get_book_data(self, first_chapter: str, path_list: list[str]) -> dict[str, dict[str, list[str]]]:
         # NOTE For scraping LWW Textbooks
         # chapter_1: WebElement = WebDriverWait(self.driver, 30).until(EC.presence_of_element_located((By.LINK_TEXT, first_chapter)))
         # NOTE For scraping Elsevier Textbooks
@@ -75,22 +75,32 @@ class bookScraper:
             headers: dict[str, WebElement] = chapter.get_headers()
             header_term_dict: dict[str, list[str]] = {}
             path: str = ''
-            # TODO Headers are good; work to create correct xpaths for the chapter (html element is a section not a div)
             for section_id in headers.keys():
-                path1 = f"//div[@id='{section_id}']/descendant::div[not(@class='caption-legend' or @class='boxed-content')]/div[@class='para']/strong"
-                path2 = f"//div[@id='{section_id}']/descendant::div[not(@class='caption-legend' or @class='boxed-content')]/ul[@class='bullet']/li/div[@class='para']/strong"
+                # path1 = f"//div[@id='{section_id}']/descendant::div[not(@class='caption-legend' or @class='boxed-content')]/div[@class='para']/strong"
+                # path2 = f"//div[@id='{section_id}']/descendant::div[not(@class='caption-legend' or @class='boxed-content')]/ul[@class='bullet']/li/div[@class='para']/strong"
                 # path3 = f"//div[@id='{section_id}']/descendant::div[not(@class='caption-legend' or @class='boxed-content')]/descendant::ul[@class='bullet']/li/div[@class='para']/strong"
                 # path4 = f"//div[@id='{section_id}']/descendant::div[not(@class='caption-legend' or @class='boxed-content')]/descendant::ul[@class='bullet']/li/strong"
                 # path5 = f"//div[@id='{section_id}']/descendant::div[not(@class='caption-legend' or @class='boxed-content')]/descendant::ol[@class='roman-upper' or @class='alpha-upper' or @class='number']/li/div[@class='para']/strong"
                 # path6 = f"//div[@id='{section_id}']/descendant::div[not(@class='caption-legend' or @class='boxed-content')]/ul[@class='bullet']/li/strong"
                 # path7 = f"//div[@id='{section_id}']/descendant::div[not(@class='caption-legend' or @class='boxed-content')]/ul[@class='bullet']/li/ul[@class='bullet']/li/div[@class='para']/strong"
-                path = f"{path1} | {path2}"
+                # path8 = f"//section[@id='{section_id}']/p/b/i"
+                # path9 = f"//section[@id='{section_id}']/p/i/b"
+                # path = f"{path8} | {path9}"
+                path = ""
+                for i, p in enumerate(path_list):
+                    if i > 0:
+                        path += " | "
+                    path += f"//section[@id='{section_id}']{p}"
                 bold_terms: list[str] = chapter.get_section_bold_terms(path)
                 if header_term_dict.get(headers.get(section_id).text) == None or len(bold_terms) > 0:
                     header_term_dict.update({headers.get(section_id).text:bold_terms})
             chapter_dict.update({chapter_title:header_term_dict})
             # Last chapter doesn't have a next chapter button
+            # TODO Handle pop-up that sometimes come up - check if it's there, if it is click off of it and continue
+            # TODO Then implement functionality for paths being passed into this function and check that it works
             try:
+                # NOTE For scraping Elsevier Textbooks
+                self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
                 next_chapter: WebElement = self.driver.find_element(By.XPATH, '//span[text()="Next Chapter"]')
             except NoSuchElementException:
                 pass
@@ -102,7 +112,9 @@ class bookScraper:
         wb: Workbook = Workbook()
         wb.remove(wb.active)
         for chapter_title, chapter_data in data.items():
-            title: str = chapter_title[:chapter_title.find(':')]
+            # NOTE For scraping LWW Textbooks
+            # title: str = chapter_title[:chapter_title.find(':')]
+            title: str = chapter_title[:chapter_title.find('.')]
             ws: Worksheet = wb.create_sheet(title)
             chapter: chapterScraper = chapterScraper(chapter_title, self.driver)
             chapter.create_worksheet(ws, chapter_data)
