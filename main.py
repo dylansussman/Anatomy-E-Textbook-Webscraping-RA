@@ -8,10 +8,13 @@ import json
 '''NOTE LWW Textbooks'''
 
 '''Scraping & Writing Data for Atlas of Histology with Functional Correlations, 13e'''
-'''NOTE Pathes used: path1-4'''
 # scraper1: bookScraper = bookScraper('https://meded-lwwhealthlibrary-com.proxy.lib.ohio-state.edu/book.aspx?bookid=2992')
 # scraper1.login()
-# data1 = scraper1.get_book_data('Chapter 1: Histologic Methods')
+# path1 = f"/descendant::div[not(@class='caption-legend' or @class='boxed-content')]/div[@class='para']/strong"
+# path2 = f"/descendant::div[not(@class='caption-legend' or @class='boxed-content')]/ul[@class='bullet']/li/div[@class='para']/strong"
+# path3 = f"/descendant::div[not(@class='caption-legend' or @class='boxed-content')]/descendant::ul[@class='bullet']/li/div[@class='para']/strong"
+# path4 = f"/descendant::div[not(@class='caption-legend' or @class='boxed-content')]/descendant::ul[@class='bullet']/li/strong"
+# data1 = scraper1.get_book_data('Chapter 1: Histologic Methods', [path1, path2, path3, path4])
 # with open('Textbook_Data/atlas_of_histology_with_function_correlations_13e_data.txt', 'w') as file1:
 #     file1.write(json.dumps(data1))
 # # with open('Textbook_Data/atlas_of_histology_with_function_correlations_13e_data.txt', 'r') as file1:
@@ -20,10 +23,13 @@ import json
 # scraper1.create_workbook(data1, '../OneDrive - The Ohio State University/Survey Development - Dylan/Textbooks Data/Atlas of Histology with Functional Correlations, 13e.xlsx')
 
 '''Scraping & Writing Data for Gartner and Hiatt's Atlas and Text of Histology, 8e'''
-'''NOTE Pathes used: path1-4'''
 # scraper2: bookScraper = bookScraper('https://meded-lwwhealthlibrary-com.proxy.lib.ohio-state.edu/book.aspx?bookid=3216')
 # scraper2.login()
-# data2 = scraper2.get_book_data('CHAPTER 1: INTRODUCTION TO HISTOLOGIC TECHNIQUES')
+# path1 = f"/descendant::div[not(@class='caption-legend' or @class='boxed-content')]/div[@class='para']/strong"
+# path2 = f"/descendant::div[not(@class='caption-legend' or @class='boxed-content')]/ul[@class='bullet']/li/div[@class='para']/strong"
+# path3 = f"/descendant::div[not(@class='caption-legend' or @class='boxed-content')]/descendant::ul[@class='bullet']/li/div[@class='para']/strong"
+# path4 = f"/descendant::div[not(@class='caption-legend' or @class='boxed-content')]/descendant::ul[@class='bullet']/li/strong"
+# data2 = scraper2.get_book_data('CHAPTER 1: INTRODUCTION TO HISTOLOGIC TECHNIQUES', [path1, path2, path3, path4])
 # with open("Textbook_Data/gartner_and_hiatt's_atlas_and_text_of_histology_8e_data.txt", 'w') as file2:
 #     file2.write(json.dumps(data2))
 # # with open("Textbook_Data/gartner_and_hiatt's_atlas_and_text_of_histology_8e_data.txt", 'r') as file2:
@@ -32,10 +38,11 @@ import json
 # scraper2.create_workbook(data2, "../OneDrive - The Ohio State University/Survey Development - Dylan/Textbooks Data/Gartner and Hiatt's Atlas and Text of Histology, 8e.xlsx")
 
 '''Scraping & Writing Data for Histology: A Text and Atlas: With Correlated Cell and Molecular Biology, 8e'''
-'''NOTE Pathes used: path1-2'''
 # scraper3: bookScraper = bookScraper('https://meded-lwwhealthlibrary-com.proxy.lib.ohio-state.edu/book.aspx?bookid=2583')
 # scraper3.login()
-# data3 = scraper3.get_book_data('1: Methods')
+# path1 = f"/descendant::div[not(@class='caption-legend' or @class='boxed-content')]/div[@class='para']/strong"
+# path2 = f"/descendant::div[not(@class='caption-legend' or @class='boxed-content')]/ul[@class='bullet']/li/div[@class='para']/strong"
+# data3 = scraper3.get_book_data('1: Methods', [path1, path2])
 # with open('Textbook_Data/histology_a_text_and_atlas_with_correlated_cell_and_molecular_biology_8e_data.txt', 'w') as file3:
 #     file3.write(json.dumps(data3))
 # # with open('Textbook_Data/histology_a_text_and_atlas_with_correlated_cell_and_molecular_biology_8e_data.txt', 'r') as file3:
@@ -44,10 +51,12 @@ import json
 # scraper3.create_workbook(data3, '../OneDrive - The Ohio State University/Survey Development - Dylan/Textbooks Data/Histology A Text and Atlas With Correlated Cell and Molecular Biology, 8e.xlsx')
 
 '''Scraping & Writing Data for Histology From a Clinical Perspective, 2e'''
-'''NOTE Pathes used: path1-2, path5'''
 # scraper4: bookScraper = bookScraper('https://meded-lwwhealthlibrary-com.proxy.lib.ohio-state.edu/book.aspx?bookid=3201')
 # scraper4.login()
-# data4 = scraper4.get_book_data('1: Illustrated Glossary of Histologic and Pathologic Terms')
+# path1 = f"/descendant::div[not(@class='caption-legend' or @class='boxed-content')]/div[@class='para']/strong"
+# path2 = f"/descendant::div[not(@class='caption-legend' or @class='boxed-content')]/ul[@class='bullet']/li/div[@class='para']/strong"
+# path3 = f"/descendant::div[not(@class='caption-legend' or @class='boxed-content')]/descendant::ol[@class='roman-upper' or @class='alpha-upper' or @class='number']/li/div[@class='para']/strong"
+# data4 = scraper4.get_book_data('1: Illustrated Glossary of Histologic and Pathologic Terms', [path1, path2, path3])
 # with open('Textbook_Data/histology_from_a_clinical_perspective_2e.txt', 'w') as file4:
 #     file4.write(json.dumps(data4))
 # # with open('Textbook_Data/histology_from_a_clinical_perspective_2e.txt', 'r') as file4:
@@ -58,10 +67,9 @@ import json
 '''NOTE Elsevier Textbooks'''
 
 '''Scraping & Writing Data for Wheater's Functional Histology, Sixth Edition'''
-'''NOTE Pathes used: path8-9'''
-# TODO Make sure passing in pathes works as intended
 # TODO Get words in blue boxes
 # TODO Grab words from beginning of chapter 20 that aren't in a section; put them in own column w/o header in spreadsheet
+    # Check if there are any other chapters like this
 scraper5: bookScraper = bookScraper("https://www-clinicalkey-com.proxy.lib.ohio-state.edu/#!/browse/book/3-s2.0-C20090600258")
 scraper5.login()
 scraper5.get_to_elsevier_book("Wheater's Functional Histology")

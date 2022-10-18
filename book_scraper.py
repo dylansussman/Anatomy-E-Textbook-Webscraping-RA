@@ -76,16 +76,6 @@ class bookScraper:
             header_term_dict: dict[str, list[str]] = {}
             path: str = ''
             for section_id in headers.keys():
-                # path1 = f"//div[@id='{section_id}']/descendant::div[not(@class='caption-legend' or @class='boxed-content')]/div[@class='para']/strong"
-                # path2 = f"//div[@id='{section_id}']/descendant::div[not(@class='caption-legend' or @class='boxed-content')]/ul[@class='bullet']/li/div[@class='para']/strong"
-                # path3 = f"//div[@id='{section_id}']/descendant::div[not(@class='caption-legend' or @class='boxed-content')]/descendant::ul[@class='bullet']/li/div[@class='para']/strong"
-                # path4 = f"//div[@id='{section_id}']/descendant::div[not(@class='caption-legend' or @class='boxed-content')]/descendant::ul[@class='bullet']/li/strong"
-                # path5 = f"//div[@id='{section_id}']/descendant::div[not(@class='caption-legend' or @class='boxed-content')]/descendant::ol[@class='roman-upper' or @class='alpha-upper' or @class='number']/li/div[@class='para']/strong"
-                # path6 = f"//div[@id='{section_id}']/descendant::div[not(@class='caption-legend' or @class='boxed-content')]/ul[@class='bullet']/li/strong"
-                # path7 = f"//div[@id='{section_id}']/descendant::div[not(@class='caption-legend' or @class='boxed-content')]/ul[@class='bullet']/li/ul[@class='bullet']/li/div[@class='para']/strong"
-                # path8 = f"//section[@id='{section_id}']/p/b/i"
-                # path9 = f"//section[@id='{section_id}']/p/i/b"
-                # path = f"{path8} | {path9}"
                 path = ""
                 for i, p in enumerate(path_list):
                     if i > 0:
@@ -95,9 +85,17 @@ class bookScraper:
                 if header_term_dict.get(headers.get(section_id).text) == None or len(bold_terms) > 0:
                     header_term_dict.update({headers.get(section_id).text:bold_terms})
             chapter_dict.update({chapter_title:header_term_dict})
+            
+            # NOTE For scraping Elsevier Textbooks
+            # Checking for pop-up and exiting out of it if it's present
+            try:
+                pop_up: WebElement = self.driver.find_element(By.ID, 'acsFocusFirst')
+            except NoSuchElementException:
+                pass
+            else:
+                pop_up.click()
+
             # Last chapter doesn't have a next chapter button
-            # TODO Handle pop-up that sometimes come up - check if it's there, if it is click off of it and continue
-            # TODO Then implement functionality for paths being passed into this function and check that it works
             try:
                 # NOTE For scraping Elsevier Textbooks
                 self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
@@ -114,6 +112,7 @@ class bookScraper:
         for chapter_title, chapter_data in data.items():
             # NOTE For scraping LWW Textbooks
             # title: str = chapter_title[:chapter_title.find(':')]
+            # NOTE for scraping Elsevier Textbooks
             title: str = chapter_title[:chapter_title.find('.')]
             ws: Worksheet = wb.create_sheet(title)
             chapter: chapterScraper = chapterScraper(chapter_title, self.driver)
