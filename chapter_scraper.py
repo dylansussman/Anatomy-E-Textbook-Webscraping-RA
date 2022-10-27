@@ -22,8 +22,9 @@ class chapterScraper:
         # NOTE For scraping LWW Textbooks
         # sections: list[WebElement] = self.driver.find_elements(By.CLASS_NAME, 'scrollTo')
         # NOTE For scraping Elsevier Textbooks
-        WebDriverWait(self.driver, 10).until(EC.visibility_of_any_elements_located((By.CSS_SELECTOR, 'a.c-link--nav')))
-        sections: list[WebElement] = self.driver.find_elements(By.CSS_SELECTOR, 'a.c-link--nav')
+        WebDriverWait(self.driver, 30).until(EC.visibility_of_any_elements_located((By.CSS_SELECTOR, 'a.c-link--nav')))
+        # NOTE When using XPATH "//a" the headers are found
+        sections: list[WebElement] = self.driver.find_elements(By.CSS_SELECTOR, "a.c-link--nav")
         for section in sections:
             if not any(map(lambda header: header in section.text, self.BAD_HEADERS)):
                 # NOTE For scraping LWW Textbooks
@@ -43,8 +44,13 @@ class chapterScraper:
             word = element.text
             if ':' in word:
                 word = word[:word.find(':')]
-            if len(word) > 1 and self.add_with_number(word) and not '.' in word and not self.is_roman_numeral(word) and word != "Image:":
+            # NOTE For scraping LWW Textbooks
+            # if len(word) > 1 and self.add_with_number(word) and not '.' in word and not self.is_roman_numeral(word) and word != "Image:":
+            # NOTE For scraping Elsevier Textbooks
+            if len(word) > 1 and self.add_with_number(word) and not self.is_roman_numeral(word) and word != "Image:":
                 if not word.lower() in bold_words:
+                    if word[len(word) - 1] == '.':
+                        word = word[:word.find('.')]
                     bold_words.append(word.lower())
         return bold_words
 

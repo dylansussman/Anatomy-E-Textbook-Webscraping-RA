@@ -80,10 +80,14 @@ class bookScraper:
                 for i, p in enumerate(path_list):
                     if i > 0:
                         path += " | "
-                    path += f"//section[@id='{section_id}']{p}"
+                    if "/a[section]" in p:
+                        path += f"//a[@id='{section_id}']{p[p.find(']')+1:]}"
+                    else:
+                        path += f"//section[@id='{section_id}']{p}"
                 bold_terms: list[str] = chapter.get_section_bold_terms(path)
-                if header_term_dict.get(headers.get(section_id).text) == None or len(bold_terms) > 0:
-                    header_term_dict.update({headers.get(section_id).text:bold_terms})
+                section_title: str = headers.get(section_id).accessible_name
+                if header_term_dict.get(section_title) == None and len(bold_terms) > 0:
+                    header_term_dict.update({section_title:bold_terms})
             chapter_dict.update({chapter_title:header_term_dict})
             
             # NOTE For scraping Elsevier Textbooks
