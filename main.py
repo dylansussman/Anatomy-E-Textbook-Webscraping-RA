@@ -63,7 +63,6 @@ import json
 '''NOTE Elsevier Textbooks'''
 
 '''Scraping & Writing Data for Wheater's Functional Histology, Sixth Edition'''
-# TODO Grab all bolded words in figures' captions (only greyed out text, not blue boxes under pictures)
 # TODO Grab words from beginning of chapter 20 that aren't in a section; put them in own column w/o header in spreadsheet
 # TODO Order words on the sheet in descending order of term length
     # Check if there are any other chapters like this

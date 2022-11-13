@@ -88,6 +88,9 @@ class bookScraper:
                 section_title: str = headers.get(section_id).accessible_name
                 if header_term_dict.get(section_title) == None and len(bold_terms) > 0:
                     header_term_dict.update({section_title:bold_terms})
+                # Call get_figure_terms here and pass in header_term_dict as that will get populated with Figure name and it's bold terms
+                # NOTE For scraping Elsevier Textbooks
+                chapter.get_figure_terms(section_id, header_term_dict)
             chapter_dict.update({chapter_title:header_term_dict})
             
             # NOTE For scraping Elsevier Textbooks
