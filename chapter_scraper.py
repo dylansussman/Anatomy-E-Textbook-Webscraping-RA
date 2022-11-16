@@ -87,6 +87,8 @@ class chapterScraper:
 
 
     def create_worksheet(self, ws: Worksheet, data: dict[str, list[str]]) -> None:
+        # Sort each list[str] in descending order by term length
+        
         # Add chapter name to first row of sheet and merge cells
         ws.merge_cells(start_row=1, end_row=1, start_column=1, end_column=len(data))
         ws.cell(row=1, column=1, value=self.chapter_title).font = Font(bold=True, size=14)
@@ -99,6 +101,7 @@ class chapterScraper:
             ws.cell(row=row, column=col, value=header).font = Font(bold=True)
             ws.cell(row=row, column=col).alignment = Alignment(horizontal='center')
             max_width = len(header)
+            terms.sort(key=lambda t: len(t) if t != None else 0)
             for term in terms:
                 if term:
                     row += 1
@@ -108,6 +111,9 @@ class chapterScraper:
             ws.column_dimensions[get_column_letter(col)].width = max_width
             row = 2
             col += 1
+
+    def sort_term_length_descending(self, ls: list[str]):
+        pass
 
     def is_roman_numeral(self, word: str) -> bool:
         word_chars_bool: list[bool] = []

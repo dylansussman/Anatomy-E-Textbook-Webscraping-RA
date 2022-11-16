@@ -63,26 +63,28 @@ import json
 '''NOTE Elsevier Textbooks'''
 
 '''Scraping & Writing Data for Wheater's Functional Histology, Sixth Edition'''
-# TODO Grab words from beginning of chapter 20 that aren't in a section; put them in own column w/o header in spreadsheet
 # TODO Order words on the sheet in descending order of term length
-    # Check if there are any other chapters like this
+# TODO Grab words from beginning of chapter 20 (Central Nervous System) & ch. 110 (Introduction to Microscopy) that aren't in a section; put them in own column w/o header in spreadsheet
+    # Ch. 20 formatted completely different with no section headers – Ask Dr. Harmon if this chapter can just be done manually
+    # Ch. 110 is only a few paragraphs, can probably just be inputted manually
+    # Once order words on sheet, email Dr. Harmon with progress & ask about Ch. 20 and Ch. 110
 scraper5: bookScraper = bookScraper("https://www-clinicalkey-com.proxy.lib.ohio-state.edu/#!/browse/book/3-s2.0-C20090600258")
-scraper5.login()
-scraper5.get_to_elsevier_book("Wheater's Functional Histology")
-path1 = f"/p/b/i"
-path2 = f"/p/i/b"
-path3 = f"/ul/li/p/b"
-path4 = f"/ul/li/p/i"
-path5 = f"//a[section]/following-sibling::div[1]/div/p/b"
-path6 = f"//a[section]/following-sibling::div[1]/div/p/i"
-path7 = f"//a[section]/parent::p/following-sibling::div[1]/div/p/b"
-path8 = f"//a[section]/parent::p/following-sibling::div[1]/div/p/i"
-data5 = scraper5.get_book_data("Cell structure and function", [path1, path2, path3, path4, path5, path6, path7, path8])
-with open("Textbook_Data/wheater's_functional_histology_sixth_edition.txt", 'w') as file5:
-    file5.write(json.dumps(data5))
-# with open("Textbook_Data/wheater's_functional_histology_sixth_edition.txt", 'r') as file5:
-#     data5 = file5.read()
-# data5 = json.loads(data5)
+# scraper5.login()
+# scraper5.get_to_elsevier_book("Wheater's Functional Histology")
+# path1 = f"/p/b/i"
+# path2 = f"/p/i/b"
+# path3 = f"/ul/li/p/b"
+# path4 = f"/ul/li/p/i"
+# path5 = f"//a[section]/following-sibling::div[1]/div/p/b"
+# path6 = f"//a[section]/following-sibling::div[1]/div/p/i"
+# path7 = f"//a[section]/parent::p/following-sibling::div[1]/div/p/b"
+# path8 = f"//a[section]/parent::p/following-sibling::div[1]/div/p/i"
+# data5 = scraper5.get_book_data("Cell structure and function", [path1, path2, path3, path4, path5, path6, path7, path8])
+# with open("Textbook_Data/wheater's_functional_histology_sixth_edition.txt", 'w') as file5:
+#     file5.write(json.dumps(data5))
+with open("Textbook_Data/wheater's_functional_histology_sixth_edition.txt", 'r') as file5:
+    data5 = file5.read()
+data5 = json.loads(data5)
 scraper5.create_workbook(data5, "../OneDrive - The Ohio State University/Survey Development - Dylan/Textbooks Data/Wheater's Functional Histology, Sixth Edition.xlsx")
 
 '''Scraping & Writing Data Stevens & Lowe's Human Histology, Fifth Edition'''
