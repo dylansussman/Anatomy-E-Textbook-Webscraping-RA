@@ -48,7 +48,6 @@ class chapterScraper:
     # Only for scraping Elsevier textbooks
     # Appends figures' bold terms to header_term_dict
     def get_figure_terms(self, section_id: str, header_term_dict: dict[str, list[str]]) -> None:
-        # path: str = f"//section[@id='{section_id}']/descendant::figure/div[@class='caption-holder']"
         path: str = f"//section[@id='{section_id}']/div[@class='inline-image figure']"
         figures: list[WebElement] = self.driver.find_elements(By.XPATH, f"{path}")
         path += f"/figure/div[@class='caption-holder']"
@@ -57,8 +56,6 @@ class chapterScraper:
         for x, figure in enumerate(figures):
             bold_terms: list[str] = []
             path = f"//section[@id='{section_id}']/div[@id='{figure_ids[x]}']/figure/div[@class='caption-holder']"
-            # length: int = len(figure.find_elements(By.XPATH, f"{path}/div[@class='inline-image-caption']/"))
-            # name = figure_titles[x].text
             length: int = len(figure.find_elements(By.XPATH, f"{path}/div[@class='inline-image-caption']"))
             for i in range(2, length + 1):
                 bold_terms += list(map(self.map_helper, figure.find_elements(By.XPATH, f"{path}/div[{i}]/i | {path}/div[{i}]/b")))
@@ -87,8 +84,6 @@ class chapterScraper:
 
 
     def create_worksheet(self, ws: Worksheet, data: dict[str, list[str]]) -> None:
-        # Sort each list[str] in descending order by term length
-        
         # Add chapter name to first row of sheet and merge cells
         ws.merge_cells(start_row=1, end_row=1, start_column=1, end_column=len(data))
         ws.cell(row=1, column=1, value=self.chapter_title).font = Font(bold=True, size=14)
@@ -101,7 +96,7 @@ class chapterScraper:
             ws.cell(row=row, column=col, value=header).font = Font(bold=True)
             ws.cell(row=row, column=col).alignment = Alignment(horizontal='center')
             max_width = len(header)
-            terms.sort(key=lambda t: len(t) if t != None else 0)
+            terms.sort(key=lambda t: len(t) if t != None else 0) # sort terms by length of term (string)
             for term in terms:
                 if term:
                     row += 1
@@ -111,9 +106,6 @@ class chapterScraper:
             ws.column_dimensions[get_column_letter(col)].width = max_width
             row = 2
             col += 1
-
-    def sort_term_length_descending(self, ls: list[str]):
-        pass
 
     def is_roman_numeral(self, word: str) -> bool:
         word_chars_bool: list[bool] = []
