@@ -83,14 +83,18 @@ import json
 # scraper5.create_workbook(data5, "../OneDrive - The Ohio State University/Survey Development - Dylan/Textbooks Data/Wheater's Functional Histology, Sixth Edition.xlsx")
 
 '''Scraping & Writing Data Stevens & Lowe's Human Histology, Fifth Edition'''
-# scraper6: bookScraper = bookScraper("https://www-clinicalkey-com.proxy.lib.ohio-state.edu/#!/browse/book/3-s2.0-C20170016105")
-# scraper6.login()
-# scraper6.get_to_elsevier_book("Stevens & Lowe's Human Histology")
-# data6 = scraper6.get_book_data("Histology")
-# with open("Textbook_Data/stevens_&_lowe's_human_histology_fifth_edition.txt", "w") as file6:
-#     file6.write(json.dumps(data6))
-# # with open("Textbook_Data/stevens_&_lowe's_human_histology_fifth_edition.txt", "r") as file6:
-# #     data6 = file6.read()
-# # data6 = json.loads(data6)
-# scraper6.create_workbook(data6, "../OneDrive - The Ohio State University/Survey Development - Dylan/Textbooks Data/Stevens & Lowe's Human Histology, Fifth Edition.xlsx")
+scraper6: bookScraper = bookScraper("https://www-clinicalkey-com.proxy.lib.ohio-state.edu/#!/browse/book/3-s2.0-C20170016105")
+scraper6.login()
+scraper6.get_to_elsevier_book("Stevens & Lowe's Human Histology")
+path1 = f"/p/b"
+path2 = f"/b"
+path3 = f"/ul/li/p/b"
+# path4 = f"/ul/li/p/i"
+data6 = scraper6.get_book_data("Histology", [path1, path2, path3])
+with open("Textbook_Data/stevens_&_lowe's_human_histology_fifth_edition.txt", "w") as file6:
+    file6.write(json.dumps(data6))
+# with open("Textbook_Data/stevens_&_lowe's_human_histology_fifth_edition.txt", "r") as file6:
+#     data6 = file6.read()
+# data6 = json.loads(data6)
+scraper6.create_workbook(data6, "../OneDrive - The Ohio State University/Survey Development - Dylan/Textbooks Data/Stevens & Lowe's Human Histology, Fifth Edition.xlsx")
 

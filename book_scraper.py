@@ -63,7 +63,7 @@ class bookScraper:
         # elements = self.driver.find_elements(By.CSS_SELECTOR, 'a.has-chapter')
         chapter_1: WebElement
         for element in elements:
-            if not "Glossary" in element.accessible_name:
+            if not "Case" in element.accessible_name and not "Review" in element.accessible_name:
                 chapter_list.append(element.accessible_name)
                 # NOTE For scraping Elsevier Textbooks
                 if first_chapter in element.accessible_name:
@@ -86,11 +86,16 @@ class bookScraper:
                         path += f"//section[@id='{section_id}']{p}"
                 bold_terms: list[str] = chapter.get_section_bold_terms(path)
                 section_title: str = headers.get(section_id).accessible_name
-                if header_term_dict.get(section_title) == None and len(bold_terms) > 0:
-                    header_term_dict.update({section_title:bold_terms})
+                # NOTE Commented out for Stevens & Lowe's only, uncomment for next textbook
+                # if header_term_dict.get(section_title) == None and len(bold_terms) > 0:
+                if len(bold_terms) > 0:
+                    if header_term_dict.get(section_title) != None:
+                        header_term_dict.update({section_title:header_term_dict.get(section_title) + bold_terms})
+                    else:
+                        header_term_dict.update({section_title:bold_terms})
                 # Call get_figure_terms here and pass in header_term_dict as that will get populated with Figure name and it's bold terms
                 # NOTE For scraping Elsevier Textbooks
-                chapter.get_figure_terms(section_id, header_term_dict)
+                # chapter.get_figure_terms(section_id, header_term_dict)
             chapter_dict.update({chapter_title:header_term_dict})
             
             # NOTE For scraping Elsevier Textbooks
