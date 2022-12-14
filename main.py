@@ -82,19 +82,48 @@ import json
 # # data5 = json.loads(data5)
 # scraper5.create_workbook(data5, "../OneDrive - The Ohio State University/Survey Development - Dylan/Textbooks Data/Wheater's Functional Histology, Sixth Edition.xlsx")
 
-'''Scraping & Writing Data Stevens & Lowe's Human Histology, Fifth Edition'''
-scraper6: bookScraper = bookScraper("https://www-clinicalkey-com.proxy.lib.ohio-state.edu/#!/browse/book/3-s2.0-C20170016105")
-scraper6.login()
-scraper6.get_to_elsevier_book("Stevens & Lowe's Human Histology")
-path1 = f"/p/b"
-path2 = f"/b"
-path3 = f"/ul/li/p/b"
-# path4 = f"/ul/li/p/i"
-data6 = scraper6.get_book_data("Histology", [path1, path2, path3])
-with open("Textbook_Data/stevens_&_lowe's_human_histology_fifth_edition.txt", "w") as file6:
-    file6.write(json.dumps(data6))
-# with open("Textbook_Data/stevens_&_lowe's_human_histology_fifth_edition.txt", "r") as file6:
-#     data6 = file6.read()
-# data6 = json.loads(data6)
-scraper6.create_workbook(data6, "../OneDrive - The Ohio State University/Survey Development - Dylan/Textbooks Data/Stevens & Lowe's Human Histology, Fifth Edition.xlsx")
+'''Scraping & Writing Data for Stevens & Lowe's Human Histology, Fifth Edition'''
+# scraper6: bookScraper = bookScraper("https://www-clinicalkey-com.proxy.lib.ohio-state.edu/#!/browse/book/3-s2.0-C20170016105")
+# scraper6.login()
+# scraper6.get_to_elsevier_book("Stevens & Lowe's Human Histology")
+# path1 = f"/p/b"
+# path2 = f"/b"
+# path3 = f"/ul/li/p/b"
+# # path4 = f"/ul/li/p/i"
+# data6 = scraper6.get_book_data("Histology", [path1, path2, path3])
+# with open("Textbook_Data/stevens_&_lowe's_human_histology_fifth_edition.txt", "w") as file6:
+#     file6.write(json.dumps(data6))
+# # with open("Textbook_Data/stevens_&_lowe's_human_histology_fifth_edition.txt", "r") as file6:
+# #     data6 = file6.read()
+# # data6 = json.loads(data6)
+# scraper6.create_workbook(data6, "../OneDrive - The Ohio State University/Survey Development - Dylan/Textbooks Data/Stevens & Lowe's Human Histology, Fifth Edition.xlsx")
+
+'''Scraping & Writing Data for Netter's Essential Histology, Third Edition'''
+# scraper7: bookScraper = bookScraper("https://www-clinicalkey-com.proxy.lib.ohio-state.edu/#!/browse/book/3-s2.0-C20180016448")
+# scraper7.login()
+# scraper7.get_to_elsevier_book("Netter's Essential Histology")
+# path1 = f"/p/b"
+# path2 = f"/div[@class='textbox']/div[@class='inline-box-body']/p/b"
+# data7 = scraper7.get_book_data("The Cell", [path1, path2])
+# with open("Textbook_Data/netter's_essential_histology_third_edition", "w") as file7:
+#     file7.write(json.dumps(data7))
+# # with open("Textbook_Data/netter's_essential_histology_third_edition", "r") as file7:
+# #     data7 = file7.read()
+# # data7 = json.loads(data7)
+# scraper7.create_workbook(data7, "../OneDrive - The Ohio State University/Survey Development - Dylan/Textbooks Data/Netter's Essential Histology, Third Edition.xlsx")
+
+'''Scraping & Writing Data for Textbook of Histology, Fifth Edition'''
+scraper8: bookScraper = bookScraper("https://www-clinicalkey-com.proxy.lib.ohio-state.edu/#!/browse/book/3-s2.0-C2018001333X")
+scraper8.login()
+scraper8.get_to_elsevier_book("Textbook of Histology")
+# TODO Put pathes here
+
+data8 = scraper8.get_book_data("Introduction to Histology and Basic Histological Techniques", [])
+with open("Textbook_Data/textbook_of_histology_fifth_edition", "w") as file8:
+    file8.write(json.dumps(data8))
+# with open("Textbook_Data/textbook_of_histology_fifth_edition", "r") as file8:
+#     data8 = file8.read()
+# data8 = json.loads(data8)
+scraper8.create_workbook(data8, "../OneDrive - The Ohio State University/Survey Development - Dylan/Textbook of Histology, Fifth Edition.xlsx")
+
 
