@@ -103,7 +103,7 @@ import json
 # scraper7.login()
 # scraper7.get_to_elsevier_book("Netter's Essential Histology")
 # path1 = f"/p/b"
-# path2 = f"/div[@class='textbox']/div[@class='inline-box-body']/p/b"
+# path2 = f"/div[@class='textbox inline-box c-content-textbox']/div[@class='inline-box-body']/p/b"
 # data7 = scraper7.get_book_data("The Cell", [path1, path2])
 # with open("Textbook_Data/netter's_essential_histology_third_edition", "w") as file7:
 #     file7.write(json.dumps(data7))
@@ -117,13 +117,15 @@ scraper8: bookScraper = bookScraper("https://www-clinicalkey-com.proxy.lib.ohio-
 scraper8.login()
 scraper8.get_to_elsevier_book("Textbook of Histology")
 # TODO Put pathes here
-
-data8 = scraper8.get_book_data("Introduction to Histology and Basic Histological Techniques", [])
+path1 = f"/descendant::p/b"
+path2 = f"/descendant::ul/li/p/b"
+path3 = f"/descendant::div[@class='textbox inline-box c-content-textbox']/div[@class='inline-box-body']/p/b"
+data8 = scraper8.get_book_data("Introduction to Histology and Basic Histological Techniques", [path1, path2, path3])
 with open("Textbook_Data/textbook_of_histology_fifth_edition", "w") as file8:
     file8.write(json.dumps(data8))
 # with open("Textbook_Data/textbook_of_histology_fifth_edition", "r") as file8:
 #     data8 = file8.read()
 # data8 = json.loads(data8)
-scraper8.create_workbook(data8, "../OneDrive - The Ohio State University/Survey Development - Dylan/Textbook of Histology, Fifth Edition.xlsx")
+scraper8.create_workbook(data8, "../OneDrive - The Ohio State University/Survey Development - Dylan/Textbooks Data/Textbook of Histology, Fifth Edition.xlsx")
 
 
