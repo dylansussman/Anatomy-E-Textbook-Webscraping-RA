@@ -113,10 +113,10 @@ import json
 # scraper7.create_workbook(data7, "../OneDrive - The Ohio State University/Survey Development - Dylan/Textbooks Data/Netter's Essential Histology, Third Edition.xlsx")
 
 '''Scraping & Writing Data for Textbook of Histology, Fifth Edition'''
+# TODO Need to come back to this textbook (Apple Notes for directions)
 scraper8: bookScraper = bookScraper("https://www-clinicalkey-com.proxy.lib.ohio-state.edu/#!/browse/book/3-s2.0-C2018001333X")
 scraper8.login()
 scraper8.get_to_elsevier_book("Textbook of Histology")
-# TODO Put pathes here
 path1 = f"/descendant::p/b"
 path2 = f"/descendant::ul/li/p/b"
 path3 = f"/descendant::div[@class='textbox inline-box c-content-textbox']/div[@class='inline-box-body']/p/b"
@@ -127,5 +127,23 @@ with open("Textbook_Data/textbook_of_histology_fifth_edition", "w") as file8:
 #     data8 = file8.read()
 # data8 = json.loads(data8)
 scraper8.create_workbook(data8, "../OneDrive - The Ohio State University/Survey Development - Dylan/Textbooks Data/Textbook of Histology, Fifth Edition.xlsx")
+
+'''Scarping & Writing for Histology and Cell Biology: An Introduction to Pathology, Fifth Edition'''
+# scraper9: bookScraper = bookScraper("https://www-clinicalkey-com.proxy.lib.ohio-state.edu/#!/browse/book/3-s2.0-C20180013341")
+# scraper9.login()
+# scraper9.get_to_elsevier_book("Histology and Cell Biology: An Introduction to Pathology")
+# path1 = f"/p/b"
+# path2 = f"/ul/li/p/b"
+# path3 = f"/div[@class='textbox inline-box c-content-textbox']/div[@class='inline-box-body']/p/b"
+# path4 = f"/div[@class='textbox inline-box c-content-textbox']/div[@class='inline-box-body']/ul/li/p/b"
+# path5 = f"/div[@class='textbox inline-box c-content-textbox']/div[@class='inline-box-body']/ul/li/ul/li/p/b"
+# data9 = scraper9.get_book_data("EPITHELIUM | CELL BIOLOGY", [path1, path2, path3, path4, path5])
+# with open("Textbook_Data/histology_and_cell_biology_an_introduction_to_pathology_fifth_edition", "w") as file9:
+#     file9.write(json.dumps(data9))
+# # with open("Textbook_Data/histology_and_cell_biology_an_introduction_to_pathology_fifth_edition", "r") as file9:
+# #     data9 = file9.read()
+# # data9 = json.loads(data9)
+# scraper9.create_workbook(data9, "../OneDrive - The Ohio State University/Survey Development - Dylan/Textbooks Data/Histology and Cell Biology An Introduction to Pathology, Fifth Edition.xlsx")
+
 
 

@@ -10,7 +10,7 @@ from openpyxl.utils import get_column_letter
 # Object to represent a chapter of a textbook
 # Big picture: chapter_scraper is within book_scraper
 class chapterScraper:
-    BAD_HEADERS: list[str] = ['Summary', 'Review', 'Additional Histologic Images', 'Outline']
+    BAD_HEADERS: list[str] = ['Summary', 'Review', 'Additional Histologic Images', 'Outline', 'KEY WORDS']
     ROMAN_NUMERALS: list[str] = ['I', 'V', 'X', 'L', 'C', 'D']
     
     def __init__(self, title: str, web_driver: webdriver.Chrome ) -> None:
