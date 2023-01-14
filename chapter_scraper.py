@@ -10,7 +10,7 @@ from openpyxl.utils import get_column_letter
 # Object to represent a chapter of a textbook
 # Big picture: chapter_scraper is within book_scraper
 class chapterScraper:
-    BAD_HEADERS: list[str] = ['Summary', 'Review', 'Additional Histologic Images', 'Outline', 'KEY WORDS']
+    BAD_HEADERS: list[str] = ['Summary', 'Review', 'Additional Histologic Images', 'Outline', 'KEY WORDS', 'Key words']
     ROMAN_NUMERALS: list[str] = ['I', 'V', 'X', 'L', 'C', 'D']
     
     def __init__(self, title: str, web_driver: webdriver.Chrome ) -> None:
@@ -81,7 +81,6 @@ class chapterScraper:
                         word = word[:word.find('.')].strip()
                     bold_words.append(word.lower())
         return bold_words
-
 
     def create_worksheet(self, ws: Worksheet, data: dict[str, list[str]]) -> None:
         # Add chapter name to first row of sheet and merge cells

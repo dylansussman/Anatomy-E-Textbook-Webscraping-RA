@@ -41,7 +41,7 @@ class bookScraper:
         search_bar: WebElement = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.ID, 'search-bar')))
         search_bar.send_keys(book_title)
         search_bar.click()
-        clickable_book: WebElement = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, 'span.suggestion__search-term')))
+        clickable_book: WebElement = WebDriverWait(self.driver, 30).until(EC.visibility_of_element_located((By.CSS_SELECTOR, 'span.suggestion__search-term')))
         while clickable_book.text != book_title:
             clickable_book = self.driver.find_element(By.CSS_SELECTOR, 'span.suggestion__search-term')
         clickable_book.click()
@@ -74,6 +74,11 @@ class bookScraper:
             chapter: chapterScraper = chapterScraper(chapter_title, self.driver)            
             headers: dict[str, WebElement] = chapter.get_headers()
             header_term_dict: dict[str, list[str]] = {}
+            bold_terms: list[str] = []
+            # NOTE Get bold terms at the beginning of chapter that aren't in a section; occur before any of the chapter's sections
+            # NOTE Only needed for Textbook of Histology
+            bold_terms = chapter.get_section_bold_terms(f"//div[@class='s-content ng-scope early-item']/div/p/b")
+            if len(bold_terms) > 0: header_term_dict.update({"Chapter Introduction":bold_terms})
             path: str = ''
             for section_id in headers.keys():
                 path = ""
@@ -84,7 +89,13 @@ class bookScraper:
                         path += f"//a[@id='{section_id}']{p[p.find(']')+1:]}"
                     else:
                         path += f"//section[@id='{section_id}']{p}"
-                bold_terms: list[str] = chapter.get_section_bold_terms(path)
+                # NOTE Next three lines only matter for Textbook of Histology (first condition in if statement checks what textbook)
+                # Because of HTML structure, only outermost sections will be checked for bold terms, so the outputted sheets will have
+                # less columns
+                parent_tag: str = self.driver.find_element(By.ID, section_id).find_element(By.XPATH, "./..").tag_name
+                if first_chapter == "Introduction to Histology and Basic Histological Techniques" and parent_tag == "section":
+                    continue
+                bold_terms = chapter.get_section_bold_terms(path)
                 section_title: str = headers.get(section_id).accessible_name
                 # NOTE Commented out for Stevens & Lowe's only, uncomment for next textbook
                 # if header_term_dict.get(section_title) == None and len(bold_terms) > 0:
