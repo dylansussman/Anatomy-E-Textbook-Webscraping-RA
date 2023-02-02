@@ -122,12 +122,5 @@ class chapterScraper:
             else:
                 return True
         return True
-
-    # NOTE Not using this function, but could need later
-    # def add_with_parentheses(self, word: str) -> bool:
-    #     if word.startswith('(') and word.endswith(')'):
-    #         word_wo_paren: str = word[1:len(word) - 1]
-    #         return self.add_with_number(word_wo_paren)
-    #     return True
             
 

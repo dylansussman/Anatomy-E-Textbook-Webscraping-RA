@@ -1,4 +1,7 @@
 from book_scraper import bookScraper
+from docx_scraper import docxScraper
+from openpyxl.workbook.workbook import Workbook
+from openpyxl.worksheet.worksheet import Worksheet
 import json
 
 '''NOTE LWW Textbooks'''
@@ -133,7 +136,7 @@ import json
 # # data8 = json.loads(data8)
 # scraper8.create_workbook(data8, "../OneDrive - The Ohio State University/Survey Development - Dylan/Textbooks Data/Textbook of Histology, Fifth Edition.xlsx")
 
-'''Scarping & Writing for Histology and Cell Biology: An Introduction to Pathology, Fifth Edition'''
+'''Scraping & Writing for Histology and Cell Biology: An Introduction to Pathology, Fifth Edition'''
 # scraper9: bookScraper = bookScraper("https://www-clinicalkey-com.proxy.lib.ohio-state.edu/#!/browse/book/3-s2.0-C20180013341")
 # scraper9.login()
 # scraper9.get_to_elsevier_book("Histology and Cell Biology: An Introduction to Pathology")
@@ -149,6 +152,27 @@ import json
 # #     data9 = file9.read()
 # # data9 = json.loads(data9)
 # scraper9.create_workbook(data9, "../OneDrive - The Ohio State University/Survey Development - Dylan/Textbooks Data/Histology and Cell Biology An Introduction to Pathology, Fifth Edition.xlsx")
+
+'''NOTE McGraw Hill Textbooks'''
+
+'''Scraping & Writing for Junquiera'''
+scraper10: docxScraper = docxScraper()
+file_name: str = ""
+chapter_dict: dict[str, list[str]] = {}
+for i in range(1, 24):
+  file_name = f"Chapter {i}.docx"
+  doc = scraper10.open_file(f"../OneDrive - The Ohio State University/Survey Development - Dylan/McGraw Hill Textbooks/Junquiera DOCXs/{file_name}")
+  scraper10.get_file_bold_terms(doc, chapter_dict)
+# Even though the chapters aren't divided into sections, still keep a worksheet for each chapter to keep all sheets' formatting consistent
+# This means that each worksheet will only have one column, but will make searching algorithm easier as there won't be a special case for this sheet
+wb: Workbook = Workbook()
+wb.remove(wb.active)
+for header, data in chapter_dict.items():
+  title: str = header[:header.find(":")]
+  ws: Worksheet = wb.create_sheet(title)
+  scraper10.create_worksheet(ws, data, header)
+wb.save("../OneDrive - The Ohio State University/Survey Development - Dylan/Textbooks Data/Junquiera.xlsx")
+wb.close()
 
 
 
