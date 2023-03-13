@@ -10,13 +10,17 @@ and this class contains methods to compare terms from other textbooks against th
 """
 class comparisonKey:
   """
-  file_name is the name of the sheet designated as the key
+  file_name: the name of the sheet designated as the key
   """
   def __init__(self, file_name: str) -> None:
     # Class variable to hold all terms from sheet designated as the comparison key
     self.key = self.__intialize_key(file_name)
     pass
 
+  """
+  file_name: the name of the sheet designated as the key
+  Reads in the sheet titled file_name to create the key to compare against
+  """
   def __intialize_key(self, file_name: str) -> dict[str, list[str]]:
     key: dict[str, list[str]] = {}
     wb: Workbook = load_workbook(file_name)
