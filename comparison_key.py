@@ -1,6 +1,7 @@
 from openpyxl import load_workbook
 from openpyxl.workbook.workbook import Workbook
 from openpyxl.worksheet.worksheet import Worksheet
+from openpyxl.cell.cell import Cell
 
 """
 This class represents the bank of words that will be tested against.
@@ -14,18 +15,24 @@ class comparisonKey:
   """
   def __init__(self, file_name: str) -> None:
     # Class variable to hold all terms from sheet designated as the comparison key
-    self.key = self.__intialize_key(file_name)
-    pass
+    wb: Workbook = load_workbook(file_name)
+    self.key = self.__intialize_key(wb)
 
   """
   file_name: the name of the sheet designated as the key
-  Reads in the sheet titled file_name to create the key to compare against
+  Reads the sheets from wb to create the key to compare against
   """
-  def __intialize_key(self, file_name: str) -> dict[str, list[str]]:
-    key: dict[str, list[str]] = {}
-    wb: Workbook = load_workbook(file_name)
+  def __intialize_key(self, wb: Workbook) -> dict[(str, str), list[str]]:
+    key: dict[(str, str), list[str]] = {}
     for sheet_name in wb.sheetnames:
       sheet: Worksheet = wb[sheet_name]
-      # TODO Finish loading entire sheet into key
+      chapter_name: str = sheet['A1'].value
+      terms: list[str] = []
+      for value in sheet.iter_cols(min_row=3, values_only=True):
+        for term in value:
+          if term != None:
+            terms.append(term)
+      key.update({(sheet_name, chapter_name):terms})
+    return key
 
     

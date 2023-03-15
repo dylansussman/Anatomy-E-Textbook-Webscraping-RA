@@ -24,5 +24,14 @@ Order of main method:
 """
 
 from comparison_mappings import comparisonMappings
+from comparison_key import comparisonKey
 
 mappings: comparisonMappings = comparisonMappings("../OneDrive - The Ohio State University/Survey Development - Dylan/Textbooks Data/Textbook Chapter Comparisons.xlsx")
+key: comparisonKey = comparisonKey("../OneDrive - The Ohio State University/Survey Development - Dylan/Textbooks Data/Histology A Text and Atlas With Correlated Cell and Molecular Biology, 8e.xlsx")
+"""
+TODO
+Using mappings.chapters_key, go key by key comparing all values (and their terms) to the correspondinf values in
+key.key and keep track of which terms appear in which textbooks using: dict[str, list[str]] where the key is the term
+and the value is a list of textbooks it occurs in
+Once the data structure is created just output it to Comparison Output.xlsx 
+"""
