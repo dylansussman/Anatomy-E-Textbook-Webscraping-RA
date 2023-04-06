@@ -20,9 +20,6 @@ class docxScraper:
         chapter_title = para.text
         title_found = True
       elif (title_found and len(para.runs) > 0 and para.style.name == "Body Text"):
-        # TODO Eliminate duplicates
-        # TODO Ensure terms are > 1 character to add to bold list
-        # TODO hyphen are replaced with \xad, so eliminate this at the end of words that have it
         for run in para.runs:
           if (run.text != '' and run.text != ' ' and run.bold):
             term: str = run.text

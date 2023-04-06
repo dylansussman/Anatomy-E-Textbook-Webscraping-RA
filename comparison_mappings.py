@@ -7,6 +7,9 @@ NOTE
 Only things that may need to change are the values of the min/max_row/col in iter_row/col depending on which textbook is used
 as the key and whether more textbooks are added to compare
 """
+"""
+This class contains all the mappings needed to compare terms to a key and output the result to a sheet
+"""
 class comparisonMappings:
   """
   file_name: the name of the sheet containing the info to create necessary mappings
