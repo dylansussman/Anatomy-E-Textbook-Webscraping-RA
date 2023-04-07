@@ -56,10 +56,8 @@ class comparisonKey:
         if term in self.key.get(key_chapter):
           if (general_chapter, term) in word_count_tracker.keys():
             list_count = word_count_tracker.get((general_chapter, term))
-            list_count[textbook_index] += 1
-            word_count_tracker.update({(general_chapter, term):list_count})
           else:
             list_count = [0] * len(textbooks)
-            list_count[textbook_index] = 1
-            word_count_tracker.update({(general_chapter, term):list_count})
+          list_count[textbook_index] = 1
+          word_count_tracker.update({(general_chapter, term):list_count})
     return word_count_tracker
