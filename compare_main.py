@@ -6,7 +6,13 @@ from openpyxl.styles import Font, PatternFill, Border, Side
 from openpyxl.utils import get_column_letter
 from openpyxl import load_workbook
 
-# Should only ever need to change constants
+"""
+NOTE
+Should only ever need to change constants
+If a new comparison is run with a different textbook as the dictionary of terms/key
+  make sure to change OUTPUT_SHEET_NAME so that the textbook being used as the key is in parentheses
+  to make sure it doesn't override an existing output sheet from another textbook as the key
+"""
 FOLDER_PATH = "../OneDrive - The Ohio State University/Survey Development - Dylan/Textbooks Data/"
 OUTPUT_SHEET_NAME = "Term Comparison Output (Junqueira's).xlsx"
 COMPARISON_SHEET_NAME = "Textbook Chapter Comparisons.xlsx"
