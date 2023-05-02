@@ -26,7 +26,11 @@ class comparisonMappings:
     ws: Worksheet = wb["Comparison Key"] # NOTE If the name of the sheet in Textbook Chapter Comparisons changes, change this to correspond to that
     self.general_chapters = self.__initialize_general_chapter_map(ws)
     self.textbook_titles, self.chapters_key = self.__initialize_key_chapter_map(ws)
+    self.key_textbook: str = self.__initialize_key_textbook(ws)
 
+  def __initialize_key_textbook(self, ws: Worksheet) -> str:
+    return ws.cell(row=1, column=2).value
+  
   """
   wb: the sheet containing the info to create necessary mappings
   Reads in appropriate columns of the sheet to create a mapping that relates

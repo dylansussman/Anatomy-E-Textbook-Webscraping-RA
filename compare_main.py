@@ -6,16 +6,14 @@ from openpyxl.styles import Font, PatternFill, Border, Side
 from openpyxl.utils import get_column_letter
 from openpyxl import load_workbook
 
+# Should only ever need to change constants
 FOLDER_PATH = "../OneDrive - The Ohio State University/Survey Development - Dylan/Textbooks Data/"
-OUTPUT_SHEET_NAME = "Term Comparison Output.xlsx"
+OUTPUT_SHEET_NAME = "Term Comparison Output (Junqueira's).xlsx"
+COMPARISON_SHEET_NAME = "Textbook Chapter Comparisons.xlsx"
 
-# If the name of the Excel sheet containing the mappings changes, then change this accordingly
-mappings: comparisonMappings = comparisonMappings(f"{FOLDER_PATH}Textbook Chapter Comparisons.xlsx")
+mappings: comparisonMappings = comparisonMappings(f"{FOLDER_PATH}{COMPARISON_SHEET_NAME}")
+key: comparisonKey = comparisonKey(f"{FOLDER_PATH}{mappings.key_textbook}.xlsx")
 
-# This should be the name of the sheet that correlates to the title of the textbook being used as the comparison key
-# If the textbook being used as the key changes, change this accordingly
-# This should correlate to the textbook in column B of the sheet containing the mappings
-key: comparisonKey = comparisonKey(f"{FOLDER_PATH}Histology A Text and Atlas With Correlated Cell and Molecular Biology, 8e.xlsx")
 """
 NOTE
 word_count_tracker: 

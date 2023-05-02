@@ -1,7 +1,6 @@
 from openpyxl import load_workbook
 from openpyxl.workbook.workbook import Workbook
 from openpyxl.worksheet.worksheet import Worksheet
-from openpyxl.cell.cell import Cell
 
 """
 This class represents the bank of words that will be tested against.
