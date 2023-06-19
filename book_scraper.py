@@ -52,13 +52,16 @@ class bookScraper:
     def get_book_data(self, first_chapter: str, path_list: list[str]) -> dict[str, dict[str, list[str]]]:
         # NOTE For scraping LWW Textbooks
         # chapter_1: WebElement = WebDriverWait(self.driver, 30).until(EC.presence_of_element_located((By.LINK_TEXT, first_chapter)))
+
         # NOTE For scraping Elsevier Textbooks
         elements: list[WebElement] = WebDriverWait(self.driver, 30).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'a.has-chapter')))
+
         chapter_list: list[str] = []
         # NOTE For scraping LWW Textbooks
         # for element in self.driver.find_elements(By.CLASS_NAME, 'tocLink_wrap'):
         #     if not 'Appendix' in element.text:
         #         chapter_list.append(element.text)
+        
         # NOTE For scraping Elsevier Textbooks
         # elements = self.driver.find_elements(By.CSS_SELECTOR, 'a.has-chapter')
         chapter_1: WebElement
@@ -68,6 +71,7 @@ class bookScraper:
                 # NOTE For scraping Elsevier Textbooks
                 if first_chapter in element.accessible_name:
                     chapter_1 = element
+
         chapter_1.click()
         chapter_dict: dict[str, dict[str, list[str]]] = {}
         for chapter_title in chapter_list:
@@ -78,6 +82,7 @@ class bookScraper:
             # NOTE Get bold terms at the beginning of chapter that aren't in a section; occur before any of the chapter's sections
             # NOTE Only needed for Textbook of Histology
             bold_terms = chapter.get_section_bold_terms(f"//div[@class='s-content ng-scope early-item']/div/p/b")
+
             if len(bold_terms) > 0: header_term_dict.update({"Chapter Introduction":bold_terms})
             path: str = ''
             for section_id in headers.keys():
@@ -95,6 +100,7 @@ class bookScraper:
                 parent_tag: str = self.driver.find_element(By.ID, section_id).find_element(By.XPATH, "./..").tag_name
                 if first_chapter == "Introduction to Histology and Basic Histological Techniques" and parent_tag == "section":
                     continue
+
                 bold_terms = chapter.get_section_bold_terms(path)
                 section_title: str = headers.get(section_id).accessible_name
                 # NOTE Commented out for Stevens & Lowe's only, uncomment for next textbook
@@ -104,9 +110,9 @@ class bookScraper:
                         header_term_dict.update({section_title:header_term_dict.get(section_title) + bold_terms})
                     else:
                         header_term_dict.update({section_title:bold_terms})
-                # Call get_figure_terms here and pass in header_term_dict as that will get populated with Figure name and it's bold terms
                 # NOTE For scraping Elsevier Textbooks
                 # chapter.get_figure_terms(section_id, header_term_dict)
+
             chapter_dict.update({chapter_title:header_term_dict})
             
             # NOTE For scraping Elsevier Textbooks
@@ -135,8 +141,10 @@ class bookScraper:
         for chapter_title, chapter_data in data.items():
             # NOTE For scraping LWW Textbooks
             # title: str = chapter_title[:chapter_title.find(':')]
+
             # NOTE for scraping Elsevier Textbooks
             title: str = chapter_title[:chapter_title.find('.')]
+            
             ws: Worksheet = wb.create_sheet(title)
             chapter: chapterScraper = chapterScraper(chapter_title, self.driver)
             chapter.create_worksheet(ws, chapter_data)

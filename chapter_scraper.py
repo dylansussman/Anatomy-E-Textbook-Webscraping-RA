@@ -21,8 +21,10 @@ class chapterScraper:
         headers: dict[str, WebElement] = {}
         # NOTE For scraping LWW Textbooks
         # sections: list[WebElement] = self.driver.find_elements(By.CLASS_NAME, 'scrollTo')
+
         # NOTE For scraping Elsevier Textbooks
         WebDriverWait(self.driver, 30).until(EC.visibility_of_any_elements_located((By.CSS_SELECTOR, 'a.c-link--nav')))
+
         # NOTE When using XPATH "//a" the headers are found
         sections: list[WebElement] = self.driver.find_elements(By.CSS_SELECTOR, "a.c-link--nav")
         for section in sections:
@@ -31,8 +33,10 @@ class chapterScraper:
                 # href: str = section.get_attribute('href')
                 # pound_index: int = href.find('#')
                 # id: str = f'section_{href[pound_index + 1:]}'
+
                 # NOTE For scraping Elsevier Textbooks
                 id: str = section.get_attribute('scroll-to-id')
+
                 if id != None:
                     headers.update({id:section})
         return headers
@@ -74,6 +78,7 @@ class chapterScraper:
                 word = word[:word.find(':')]
             # NOTE For scraping LWW Textbooks
             # if len(word) > 1 and self.add_with_number(word) and not '.' in word and not self.is_roman_numeral(word) and word != "Image:":
+            
             # NOTE For scraping Elsevier Textbooks
             if len(word) > 1 and self.add_with_number(word) and not self.is_roman_numeral(word) and word != "Image:":
                 if not word.lower() in bold_words:
