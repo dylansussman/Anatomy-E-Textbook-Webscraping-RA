@@ -1,5 +1,5 @@
-from book_scraper import bookScraper
-from docx_scraper import docxScraper
+from Webscraping.book_scraper import bookScraper
+from Webscraping.docx_scraper import docxScraper
 from openpyxl.workbook.workbook import Workbook
 from openpyxl.worksheet.worksheet import Worksheet
 import json

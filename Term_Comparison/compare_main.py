@@ -1,5 +1,5 @@
-from comparison_mappings import comparisonMappings
-from comparison_key import comparisonKey
+from Term_Comparison.comparison_mappings import comparisonMappings
+from Term_Comparison.comparison_key import comparisonKey
 from openpyxl.workbook.workbook import Workbook
 from openpyxl.worksheet.worksheet import Worksheet
 from openpyxl.styles import Font, PatternFill, Border, Side
