@@ -23,6 +23,8 @@ class bookScraper:
     # entered allowing access to the page
     def login(self) -> None:
         username, password = '', ''
+        # NOTE The line below this (the path to the file with login credentials) will need to be changed to correspond to the 
+        # correct file path and name containing the file with credentials (likely on local hard drive)
         with open('../Documents/Private/login_credentials.rtf', 'r') as credentials:
             while username == '':
                 username = rtf_to_text(credentials.readline())

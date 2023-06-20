@@ -16,9 +16,11 @@ class comparisonMappings:
   self.general_chapters: mapping from title of each chapter from the textbook used as the comparison key
     to the corresponding general "chapter" name
     Done this way (textbook chapter title (key) -> general "chapter" title (value)) because each textbook chapter corresponds
-    to one and only one general chapter, but general chapters can correspond to >1 chapter
+    to one and only one general chapter, but general chapters can correspond to > 1 chapter
     The first tuple entry corresponds to the sheet name for that chapter data, the second entry corresponds to the textbook title of that chapter
   self.textbook_titles: list containing the titles of all the textbooks except the one being used as the key, in the order they appear in the spreadsheet
+    The title of each textbook in this sheet should match excatly to the names of the corresponding Excel Workbooks that contain all of that textbook's
+    bolded words. 
   self.chapters_key: mapping from title of each key chapter to the corresponding chapters in the other textbooks
   """
   def __init__(self, file_name: str) -> None:

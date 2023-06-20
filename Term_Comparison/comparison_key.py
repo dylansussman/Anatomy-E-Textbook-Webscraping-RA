@@ -6,7 +6,8 @@ from openpyxl.worksheet.worksheet import Worksheet
 This class represents the bank of words that will be tested against.
 An instantiation of this class will contain a dictionary with every term from the textbook designated
 as the key to compare terms from other textbooks against. These terms will be orgnanized by chapter
-and this class contains methods to compare terms from other textbooks against the key
+and this class contains methods to compare terms from other textbooks against the key.
+The textbook used as the key is determined by the textbook in the comparison sheet that is in Column B.
 """
 class comparisonKey:
   """

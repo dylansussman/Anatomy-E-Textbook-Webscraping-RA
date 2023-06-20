@@ -12,6 +12,8 @@ Should only ever need to change constants
 If a new comparison is run with a different textbook as the dictionary of terms/key
   make sure to change OUTPUT_SHEET_NAME so that the textbook being used as the key is in parentheses
   to make sure it doesn't override an existing output sheet from another textbook as the key
+If the name of the comparison sheet changes then the corresponding constant can be changed accordingly
+The FOLDER_PATH will need to change accordingly to the directory storing all these files
 """
 FOLDER_PATH = "../OneDrive - The Ohio State University/Survey Development - Dylan/Textbooks Data/"
 OUTPUT_SHEET_NAME = "Term Comparison Output (Junqueira's).xlsx"
