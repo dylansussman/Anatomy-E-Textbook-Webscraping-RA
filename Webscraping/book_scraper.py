@@ -4,7 +4,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from striprtf.striprtf import rtf_to_text
-from Webscraping.chapter_scraper import chapterScraper
+from chapter_scraper import chapterScraper
 from openpyxl.workbook.workbook import Workbook
 from openpyxl.worksheet.worksheet import Worksheet
 from selenium.common.exceptions import NoSuchElementException

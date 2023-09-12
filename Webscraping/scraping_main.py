@@ -1,5 +1,5 @@
-from Webscraping.book_scraper import bookScraper
-from Webscraping.docx_scraper import docxScraper
+from book_scraper import bookScraper
+from docx_scraper import docxScraper
 from openpyxl.workbook.workbook import Workbook
 from openpyxl.worksheet.worksheet import Worksheet
 import json
@@ -7,19 +7,19 @@ import json
 '''NOTE LWW Textbooks'''
 
 '''Scraping & Writing Data for Atlas of Histology with Functional Correlations, 13e'''
-# scraper1: bookScraper = bookScraper('https://meded-lwwhealthlibrary-com.proxy.lib.ohio-state.edu/book.aspx?bookid=2992')
-# scraper1.login()
-# path1 = f"/descendant::div[not(@class='caption-legend' or @class='boxed-content')]/div[@class='para']/strong"
-# path2 = f"/descendant::div[not(@class='caption-legend' or @class='boxed-content')]/ul[@class='bullet']/li/div[@class='para']/strong"
-# path3 = f"/descendant::div[not(@class='caption-legend' or @class='boxed-content')]/descendant::ul[@class='bullet']/li/div[@class='para']/strong"
-# path4 = f"/descendant::div[not(@class='caption-legend' or @class='boxed-content')]/descendant::ul[@class='bullet']/li/strong"
-# data1 = scraper1.get_book_data('Chapter 1: Histologic Methods', [path1, path2, path3, path4])
-# with open('Textbook_Data/atlas_of_histology_with_function_correlations_13e_data.txt', 'w') as file1:
-#     file1.write(json.dumps(data1))
-# # with open('Textbook_Data/atlas_of_histology_with_function_correlations_13e_data.txt', 'r') as file1:
-# #     data1 = file1.read()
-# # data1 = json.loads(data1)
-# scraper1.create_workbook(data1, '../OneDrive - The Ohio State University/Survey Development - Dylan/Textbooks Data/Atlas of Histology with Functional Correlations, 13e.xlsx')
+scraper1: bookScraper = bookScraper('https://meded-lwwhealthlibrary-com.proxy.lib.ohio-state.edu/book.aspx?bookid=2992')
+scraper1.login()
+path1 = f"/descendant::div[not(@class='caption-legend' or @class='boxed-content')]/div[@class='para']/strong"
+path2 = f"/descendant::div[not(@class='caption-legend' or @class='boxed-content')]/ul[@class='bullet']/li/div[@class='para']/strong"
+path3 = f"/descendant::div[not(@class='caption-legend' or @class='boxed-content')]/descendant::ul[@class='bullet']/li/div[@class='para']/strong"
+path4 = f"/descendant::div[not(@class='caption-legend' or @class='boxed-content')]/descendant::ul[@class='bullet']/li/strong"
+data1 = scraper1.get_book_data('Chapter 1: Histologic Methods', [path1, path2, path3, path4])
+with open('Textbook_Data/atlas_of_histology_with_function_correlations_13e_data.txt', 'w') as file1:
+    file1.write(json.dumps(data1))
+# with open('Textbook_Data/atlas_of_histology_with_function_correlations_13e_data.txt', 'r') as file1:
+#     data1 = file1.read()
+# data1 = json.loads(data1)
+scraper1.create_workbook(data1, '../OneDrive - The Ohio State University/Survey Development - Dylan/Textbooks Data/Atlas of Histology with Functional Correlations, 13e.xlsx')
 
 '''Scraping & Writing Data for Gartner and Hiatt's Atlas and Text of Histology, 8e'''
 # scraper2: bookScraper = bookScraper('https://meded-lwwhealthlibrary-com.proxy.lib.ohio-state.edu/book.aspx?bookid=3216')
@@ -156,23 +156,23 @@ import json
 '''NOTE McGraw Hill Textbooks'''
 
 '''Scraping & Writing for Junquiera'''
-scraper10: docxScraper = docxScraper()
-file_name: str = ""
-chapter_dict: dict[str, list[str]] = {}
-for i in range(1, 24):
-  file_name = f"Chapter {i}.docx"
-  doc = scraper10.open_file(f"../OneDrive - The Ohio State University/Survey Development - Dylan/McGraw Hill Textbooks/Junquiera DOCXs/{file_name}")
-  scraper10.get_file_bold_terms(doc, chapter_dict)
-# Even though the chapters aren't divided into sections, still keep a worksheet for each chapter to keep all sheets' formatting consistent
-# This means that each worksheet will only have one column, but will make searching algorithm easier as there won't be a special case for this sheet
-wb: Workbook = Workbook()
-wb.remove(wb.active)
-for header, data in chapter_dict.items():
-  title: str = header[:header.find(":")]
-  ws: Worksheet = wb.create_sheet(title)
-  scraper10.create_worksheet(ws, data, header)
-wb.save("../OneDrive - The Ohio State University/Survey Development - Dylan/Textbooks Data/Junquiera.xlsx")
-wb.close()
+# scraper10: docxScraper = docxScraper()
+# file_name: str = ""
+# chapter_dict: dict[str, list[str]] = {}
+# for i in range(1, 24):
+#   file_name = f"Chapter {i}.docx"
+#   doc = scraper10.open_file(f"../OneDrive - The Ohio State University/Survey Development - Dylan/McGraw Hill Textbooks/Junquiera DOCXs/{file_name}")
+#   scraper10.get_file_bold_terms(doc, chapter_dict)
+# # Even though the chapters aren't divided into sections, still keep a worksheet for each chapter to keep all sheets' formatting consistent
+# # This means that each worksheet will only have one column, but will make searching algorithm easier as there won't be a special case for this sheet
+# wb: Workbook = Workbook()
+# wb.remove(wb.active)
+# for header, data in chapter_dict.items():
+#   title: str = header[:header.find(":")]
+#   ws: Worksheet = wb.create_sheet(title)
+#   scraper10.create_worksheet(ws, data, header)
+# wb.save("../OneDrive - The Ohio State University/Survey Development - Dylan/Textbooks Data/Junquiera.xlsx")
+# wb.close()
 
 
 

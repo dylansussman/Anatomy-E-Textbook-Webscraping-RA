@@ -16,16 +16,17 @@ of this project's components running.
 ## Requirements
 This project is written entirely in Python 3.0, so ensure that at least that version of Python has been installed, in addition to the Python interpreter to run this code. Additional details and information can be seen [here](https://www.python.org).
 
-There are two dependencies used in this project. The first is [OpenPyXL](https://openpyxl.readthedocs.io/en/stable/index.html) which is a framework used for all things
-related to reading from and writing to Excel sheets. The documentation is available [here](https://openpyxl.readthedocs.io/en/stable/index.html). The second is
-[python-docx](https://python-docx.readthedocs.io/en/latest/index.html) which is a framework used for all things related to reading from and writing to Word documents.
-The documentation is available [here](https://python-docx.readthedocs.io/en/latest/index.html).
+There are four dependencies used in this project. The first is [Selenium WebDriver](https://www.selenium.dev/documentation/webdriver/) which is the webscraping framework used in this project. The documentation is available [here](https://www.selenium.dev/documentation/webdriver/). The second is [OpenPyXL](https://openpyxl.readthedocs.io/en/stable/index.html) which is a framework used for all things related to reading from and writing to Excel sheets. The documentation is available [here](https://openpyxl.readthedocs.io/en/stable/index.html). The third is [python-docx](https://python-docx.readthedocs.io/en/latest/index.html) which is a framework used for all things related to reading from and writing to Word documents. The documentation is available [here](https://python-docx.readthedocs.io/en/latest/index.html). The fourth is [striprtf](https://pypi.org/project/striprtf/) which is used to read from a .txt file when logging in the the e-textbook website. The documentation is available [here](https://pypi.org/project/striprtf/).
 
 To ensure these are installed run the following in the terminal/command line:
+
+``` $ pip install selenium```
 
 ``` $ pip install openpyxl ```
 
 ``` $ pip install python-docx ```
+
+``` $ pip install striprtf```
 
 ## Components
 There are two components to this project. The first is the webscraping of the online textbooks and the input of the bold terms in Excel sheets. All of the
